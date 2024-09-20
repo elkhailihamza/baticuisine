@@ -1,11 +1,16 @@
-import Controllers.ClientController;
-import Core.DB_Connection;
+import Views.MainMenu;
 
 public class Main {
     public static void main(String[] args) {
+        int option = 0;
+        App.start();
 
-        ClientController clientController = new ClientController();
-
-
+        while (true) {
+            switch (option) {
+                case 0 -> option = MainMenu.displayMenu();
+                case 1 -> option =
+            }
+            System.out.println();
+        }
     }
 }

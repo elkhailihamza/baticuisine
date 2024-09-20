@@ -1,6 +1,6 @@
 package Models;
 
-public class Materiaux {
+public class Materials {
     private final long materiau_id;
     private String nom;
     private double coutUnitaire;
@@ -10,7 +10,7 @@ public class Materiaux {
     private double coutTransport;
     private double coefficientQualite;
 
-    public Materiaux(long materiau_id, String nom, double coutUnitaire, double quantite, double tauxTVA, String typeComposant, double coutTransport, double coefficientQualite) {
+    public Materials(long materiau_id, String nom, double coutUnitaire, double quantite, double tauxTVA, String typeComposant, double coutTransport, double coefficientQualite) {
         this.materiau_id = materiau_id;
         this.nom = nom;
         this.coutUnitaire = coutUnitaire;

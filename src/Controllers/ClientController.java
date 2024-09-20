@@ -10,5 +10,7 @@ public class ClientController extends Controller{
         super();
     }
 
-
+    public void fetch() {
+        repository.getClientService().
+    }
 }

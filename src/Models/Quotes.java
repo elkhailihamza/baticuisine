@@ -2,7 +2,7 @@ package Models;
 
 import java.sql.Date;
 
-public class Devis {
+public class Quotes {
     private final long devis_id;
     private double montantEstime;
     private Date dateEmission;
@@ -10,7 +10,7 @@ public class Devis {
     private boolean accepte;
     private long projectId;
 
-    public Devis(long devisId, double montantEstime, Date dateEmission, Date dateValidate, boolean accepte, long projectId) {
+    public Quotes(long devisId, double montantEstime, Date dateEmission, Date dateValidate, boolean accepte, long projectId) {
         this.devis_id = devisId;
         this.montantEstime = montantEstime;
         this.dateEmission = dateEmission;

@@ -1,5 +1,7 @@
 package Repositories;
 
-public interface ClientRepository {
+import Models.Clients;
+
+public interface ClientRepository extends GenericRepository<Clients, Long> {
 
 }

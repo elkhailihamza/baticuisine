@@ -1,6 +1,6 @@
 package Models;
 
-public class MainsOeuvre {
+public class Labors {
     private final long mainOeuvre_id;
     private String nom;
     private String typeComposant;
@@ -10,7 +10,7 @@ public class MainsOeuvre {
     private double productiviteOuvrier;
     private long projectId;
 
-    public MainsOeuvre(long mainOeuvre_id, String nom, String typeComposant, double tauxTVA, double tauxHoraire, double heuresTravail, double productiviteOuvrier, long projectId) {
+    public Labors(long mainOeuvre_id, String nom, String typeComposant, double tauxTVA, double tauxHoraire, double heuresTravail, double productiviteOuvrier, long projectId) {
         this.mainOeuvre_id = mainOeuvre_id;
         this.nom = nom;
         this.typeComposant = typeComposant;
