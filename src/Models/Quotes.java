@@ -1,17 +1,17 @@
 package Models;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 public class Quotes {
-    private final long devis_id;
+    private final long quote_id;
     private double montantEstime;
-    private Date dateEmission;
-    private Date dateValidate;
+    private LocalDate dateEmission;
+    private LocalDate dateValidate;
     private boolean accepte;
     private long projectId;
 
-    public Quotes(long devisId, double montantEstime, Date dateEmission, Date dateValidate, boolean accepte, long projectId) {
-        this.devis_id = devisId;
+    public Quotes(long quoteId, double montantEstime, LocalDate dateEmission, LocalDate dateValidate, boolean accepte, long projectId) {
+        this.quote_id = quoteId;
         this.montantEstime = montantEstime;
         this.dateEmission = dateEmission;
         this.dateValidate = dateValidate;
@@ -19,8 +19,8 @@ public class Quotes {
         this.projectId = projectId;
     }
 
-    public long getDevis_id() {
-        return devis_id;
+    public long getQuote_id() {
+        return quote_id;
     }
 
     public double getMontantEstime() {
@@ -31,27 +31,27 @@ public class Quotes {
         this.montantEstime = montantEstime;
     }
 
-    public Date getDateEmission() {
+    public LocalDate getDateEmission() {
         return dateEmission;
     }
 
-    public void setDateEmission(Date dateEmission) {
+    public void setDateEmission(LocalDate dateEmission) {
         this.dateEmission = dateEmission;
     }
 
-    public Date getDateValidate() {
+    public LocalDate getDateValidate() {
         return dateValidate;
     }
 
-    public void setDateValidate(Date dateValidate) {
+    public void setDateValidate(LocalDate dateValidate) {
         this.dateValidate = dateValidate;
     }
 
-    public boolean getAccepte() {
+    public boolean isAccepte() {
         return this.accepte;
     }
 
-    public void setAccepte(boolean accepte) {
+    public void setIsAccepte(boolean accepte) {
         this.accepte = accepte;
     }
 

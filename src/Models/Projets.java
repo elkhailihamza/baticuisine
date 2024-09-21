@@ -9,16 +9,14 @@ public class Projets {
     private double coutTotal;
     private Etat etatProjet;
     private long clientId;
-    private long userId;
 
-    public Projets(long projet_id, String nomProjet, double margeBeneficiaire, double coutTotal, Etat etatProjet, long clientId, long userId) {
+    public Projets(long projet_id, String nomProjet, double margeBeneficiaire, double coutTotal, Etat etatProjet, long clientId) {
         this.projet_id = projet_id;
         this.nomProjet = nomProjet;
         this.margeBeneficiaire = margeBeneficiaire;
         this.coutTotal = coutTotal;
         this.etatProjet = etatProjet;
         this.clientId = clientId;
-        this.userId = userId;
     }
 
     public long getProjet_id() {
@@ -63,13 +61,5 @@ public class Projets {
 
     public void setEtatProjet(Etat etatProjet) {
         this.etatProjet = etatProjet;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
     }
 }

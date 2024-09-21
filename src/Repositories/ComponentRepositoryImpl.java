@@ -1,66 +1,66 @@
 package Repositories;
 
-import Models.Clients;
+import Models.Components;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientRepositoryImpl implements ClientRepository {
+public class ComponentRepositoryImpl implements ComponentRepository {
     private static Connection connectionInstance;
 
-    public ClientRepositoryImpl(Connection db_connection) {
+    public ComponentRepositoryImpl(Connection db_connection) {
         connectionInstance = db_connection;
     }
 
     @Override
-    public Clients findById(Long aLong) {
-        Clients user = null;
-        String sql = "SELECT * FROM clients WHERE client_id = ?;";
+    public Components findById(Long aLong) {
+        Components component = null;
+        String sql = "SELECT * FROM components WHERE component_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next())
-                    user = this.assignValuesToClients(rs);
+                    component = this.assignValuesToComponents(rs);
             }
         } catch (SQLException e) {
             System.out.println("Clients Find by id: " + e);
         }
-        return user;
+        return component;
     }
 
     @Override
-    public List<Clients> fetchAll() {
-        List<Clients> Clients = new ArrayList<>(List.of());
-        String sql = "SELECT * FROM clients;";
+    public List<Components> fetchAll() {
+        List<Components> Components = new ArrayList<>(List.of());
+        String sql = "SELECT * FROM components;";
         try (Statement stmt = connectionInstance.createStatement()) {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                Clients user = this.assignValuesToClients(rs);
-                Clients.add(user);
+                Components user = this.assignValuesToComponents(rs);
+                Components.add(user);
             }
         } catch (SQLException e) {
             System.out.println("Clients Fetch all err: " + e);
         }
-        return Clients;
+        return Components;
     }
 
     @Override
-    public void save(Clients entity) {
+    public void save(Components entity) {
         String sql = "INSERT INTO clients (nom, adresse, telephone, estprofessionnel) VALUES (?, ?, ?, ?);";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
-            this.assignClientToStmt(stmt, entity);
+            this.assignComponentToStmt(stmt, entity);
             stmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println("Clients add err: "+e);
+            System.out.println("Clients add err: " + e);
         }
     }
 
     @Override
-    public void update(Clients entity) {
-        String sql = "UPDATE clients SET nom = ?, adresse = ?, telephone = ?, estprofessionnel = ? WHERE client_id = ?;";
+    public void update(Components entity) {
+        String sql = "UPDATE components SET nom = ?, typecomponent = ?, tauxtva = ?, projetid = ? WHERE component_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
-            this.assignClientToStmt(stmt, entity);
-            stmt.setLong(6, entity.getClient_id());
+            this.assignComponentToStmt(stmt, entity);
+            stmt.setLong(6, entity.getComponent_id());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Clients update err: "+e);
@@ -68,13 +68,15 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
-    public void delete(Clients entity) {
-        String sql = "DELETE FROM clients WHERE client_id = ?;";
+    public void delete(Components entity) {
+        String sql = "DELETE FROM components WHERE component_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
-            stmt.setLong(1, entity.getClient_id());
+            stmt.setLong(1, entity.getComponent_id());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Clients delete err: "+e);
         }
     }
+
+
 }
