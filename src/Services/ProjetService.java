@@ -2,13 +2,14 @@ package Services;
 
 import Models.Projets;
 import Repositories.GenericRepository;
+import Repositories.ProjetRepository;
 
 import java.util.List;
 
 public class ProjetService {
-    private final GenericRepository<Projets, Long> projetRepository;
+    private final ProjetRepository projetRepository;
 
-    public ProjetService(GenericRepository<Projets, Long> projetRepository) {
+    public ProjetService(ProjetRepository projetRepository) {
         this.projetRepository = projetRepository;
     }
 

@@ -2,13 +2,14 @@ package Services;
 
 import Models.Labor;
 import Repositories.GenericRepository;
+import Repositories.LaborRepository;
 
 import java.util.List;
 
 public class LaborService {
-    private final GenericRepository<Labor, Long> laborRepository;
+    private final LaborRepository laborRepository;
 
-    public LaborService(GenericRepository<Labor, Long> laborRepository) {
+    public LaborService(LaborRepository laborRepository) {
         this.laborRepository = laborRepository;
     }
 

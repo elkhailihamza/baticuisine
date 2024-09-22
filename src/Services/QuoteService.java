@@ -2,13 +2,14 @@ package Services;
 
 import Models.Quotes;
 import Repositories.GenericRepository;
+import Repositories.QuoteRepository;
 
 import java.util.List;
 
 public class QuoteService {
-    private final GenericRepository<Quotes, Long> quoteRepository;
+    private final QuoteRepository quoteRepository;
 
-    public QuoteService(GenericRepository<Quotes, Long> quoteRepository) {
+    public QuoteService(QuoteRepository quoteRepository) {
         this.quoteRepository = quoteRepository;
     }
 

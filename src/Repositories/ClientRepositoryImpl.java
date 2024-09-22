@@ -77,4 +77,20 @@ public class ClientRepositoryImpl implements ClientRepository {
             System.out.println("Clients delete err: "+e);
         }
     }
+
+    @Override
+    public Clients fetchByNom(String nom) {
+        Clients client = null;
+        String sql = "SELECT * FROM clients WHERE nom = ?;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            stmt.setString(1, nom);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next())
+                    client = this.assignValuesToClients(rs);
+            }
+        } catch(SQLException e) {
+            System.out.println("Clients fetch by nom err: "+e);
+        }
+        return client;
+    }
 }

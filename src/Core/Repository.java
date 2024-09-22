@@ -16,12 +16,12 @@ public class Repository {
     private Repository () {
         Connection connectionInstance = DB_Connection.getConnection();
 
-        GenericRepository<Clients, Long> ClientRepository = new ClientRepositoryImpl(connectionInstance);
-        GenericRepository<Projets, Long> ProjetRepository = new ProjetRepositoryImpl(connectionInstance);
-        GenericRepository<Quotes, Long> QuoteRepository = new QuoteRepositoryImpl(connectionInstance);
-        GenericRepository<Components, Long> ComponentRepository = new ComponentRepositoryImpl(connectionInstance);
-        GenericRepository<Materials, Long> MaterialRepository = new MaterialRepositoryImpl(connectionInstance);
-        GenericRepository<Labor, Long> LaborRepository = new LaborRepositoryImpl(connectionInstance);
+        ClientRepository ClientRepository = new ClientRepositoryImpl(connectionInstance);
+        ProjetRepository ProjetRepository = new ProjetRepositoryImpl(connectionInstance);
+        QuoteRepository QuoteRepository = new QuoteRepositoryImpl(connectionInstance);
+        ComponentRepository ComponentRepository = new ComponentRepositoryImpl(connectionInstance);
+        MaterialRepository MaterialRepository = new MaterialRepositoryImpl(connectionInstance);
+        LaborRepository LaborRepository = new LaborRepositoryImpl(connectionInstance);
 
         this.ClientService = new ClientService(ClientRepository);
         this.ProjetService = new ProjetService(ProjetRepository);

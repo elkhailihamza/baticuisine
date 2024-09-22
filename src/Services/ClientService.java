@@ -1,14 +1,19 @@
 package Services;
 
 import Models.Clients;
+import Repositories.ClientRepository;
 import Repositories.GenericRepository;
 
 import java.util.List;
 
 public class ClientService {
-    private final GenericRepository<Clients, Long> ClientRepository;
-    public ClientService(GenericRepository<Clients, Long> ClientRepository) {
+    private final ClientRepository ClientRepository;
+    public ClientService(ClientRepository ClientRepository) {
         this.ClientRepository = ClientRepository;
+    }
+
+    public Clients fetchByNom(String nom) {
+        return this.ClientRepository.fetchByNom(nom);
     }
 
     public Clients findById(long id) {

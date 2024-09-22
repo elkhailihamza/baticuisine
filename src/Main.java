@@ -30,7 +30,7 @@ public class Main {
 
     private void handleOption(int option) {
         switch (option) {
-            case 1 ->
+            case 1 -> clientController.
         }
     }
 }

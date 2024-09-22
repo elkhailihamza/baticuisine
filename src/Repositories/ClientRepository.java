@@ -7,6 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public interface ClientRepository extends GenericRepository<Clients, Long> {
+    Clients fetchByNom(String nom);
+
     default void assignClientToStmt(PreparedStatement stmt, Clients entity) throws SQLException {
         stmt.setString(1, entity.getNom());
         stmt.setString(2, entity.getAdresse());

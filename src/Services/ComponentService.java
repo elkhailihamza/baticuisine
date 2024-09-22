@@ -1,14 +1,15 @@
 package Services;
 
 import Models.Components;
+import Repositories.ComponentRepository;
 import Repositories.GenericRepository;
 
 import java.util.List;
 
 public class ComponentService {
-    private final GenericRepository<Components, Long> componentRepository;
+    private final ComponentRepository componentRepository;
 
-    public ComponentService(GenericRepository<Components, Long> componentRepository) {
+    public ComponentService(ComponentRepository componentRepository) {
         this.componentRepository = componentRepository;
     }
 

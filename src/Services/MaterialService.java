@@ -2,13 +2,14 @@ package Services;
 
 import Models.Materials;
 import Repositories.GenericRepository;
+import Repositories.MaterialRepository;
 
 import java.util.List;
 
 public class MaterialService {
-    private final GenericRepository<Materials, Long> materialRepository;
+    private final MaterialRepository materialRepository;
 
-    public MaterialService(GenericRepository<Materials, Long> materialRepository) {
+    public MaterialService(MaterialRepository materialRepository) {
         this.materialRepository = materialRepository;
     }
 
