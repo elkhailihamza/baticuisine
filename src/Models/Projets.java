@@ -19,6 +19,10 @@ public class Projets {
         this.clientId = clientId;
     }
 
+    public Projets(long projetId) {
+        this.projet_id = projetId;
+    }
+
     public long getProjet_id() {
         return projet_id;
     }

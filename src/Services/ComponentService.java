@@ -2,7 +2,6 @@ package Services;
 
 import Models.Components;
 import Repositories.ComponentRepository;
-import Repositories.GenericRepository;
 
 import java.util.List;
 
@@ -31,5 +30,9 @@ public class ComponentService {
 
     public void delete(Components entity) {
         this.componentRepository.delete(entity);
+    }
+
+    public Components addMaterial(String nom, String type, double tauxTVA, long projectId) {
+        return new Components(1, nom, type, tauxTVA, projectId);
     }
 }

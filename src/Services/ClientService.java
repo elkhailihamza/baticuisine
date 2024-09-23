@@ -28,8 +28,16 @@ public class ClientService {
         this.ClientRepository.save(entity);
     }
 
+    public Clients saveAndReturn(Clients entity) {
+        return this.ClientRepository.saveAndReturn(entity);
+    }
+
     public void update(Clients entity) {
         this.ClientRepository.update(entity);
+    }
+
+    public Clients updateAndReturn(Clients entity) {
+        return this.ClientRepository.updateAndReturn(entity);
     }
 
     public void delete(Clients entity) {

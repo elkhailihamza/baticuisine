@@ -56,6 +56,21 @@ public class ClientRepositoryImpl implements ClientRepository {
     }
 
     @Override
+    public Clients saveAndReturn(Clients entity) {
+        Clients client = null;
+        String sql = "INSERT INTO clients (nom, adresse, telephone, estprofessionnel) VALUES (?, ?, ?, ?) RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignClientToStmt(stmt, entity);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                client = this.assignValuesToClients(rs);
+        } catch (SQLException e) {
+            System.out.println("Clients add err: "+e);
+        }
+        return client;
+    }
+
+    @Override
     public void update(Clients entity) {
         String sql = "UPDATE clients SET nom = ?, adresse = ?, telephone = ?, estprofessionnel = ? WHERE client_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
@@ -65,6 +80,22 @@ public class ClientRepositoryImpl implements ClientRepository {
         } catch (SQLException e) {
             System.out.println("Clients update err: "+e);
         }
+    }
+
+    @Override
+    public Clients updateAndReturn(Clients entity) {
+        Clients client = null;
+        String sql = "UPDATE clients SET nom = ?, adresse = ?, telephone = ?, estprofessionnel = ? WHERE client_id = ? RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignClientToStmt(stmt, entity);
+            stmt.setLong(6, entity.getClient_id());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                client = this.assignValuesToClients(rs);
+        } catch (SQLException e) {
+            System.out.println("Clients update err: "+e);
+        }
+        return client;
     }
 
     @Override

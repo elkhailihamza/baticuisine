@@ -32,4 +32,13 @@ public class LaborService {
     public void delete(Labor entity) {
         this.laborRepository.delete(entity);
     }
+
+    public double calcWorkCost(Labor entity) {
+        return entity.getHourlyRate() * entity.getHoursWorked() * entity.getWorkerProductivity();
+    }
+
+    public double calcWorkCostWithTVA(Labor entity, double TVA) {
+        double tax = (this.calcWorkCost(entity) * TVA) / 100;
+        return this.calcWorkCost(entity) + tax;
+    }
 }

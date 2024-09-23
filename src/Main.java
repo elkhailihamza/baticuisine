@@ -4,7 +4,7 @@ import Views.MainMenu;
 public class Main {
 
     private ClientController clientController = new ClientController();
-    private ProjectController projectController = new ProjectController();
+    private ProjetController projetController = new ProjetController();
     private QuoteController quoteController = new QuoteController();
     private ComponentController componentController = new ComponentController();
     private MaterialController materialController = new MaterialController();
@@ -30,7 +30,7 @@ public class Main {
 
     private void handleOption(int option) {
         switch (option) {
-            case 1 -> clientController.
+            case 1 -> clientController.searchClientByName();
         }
     }
 }

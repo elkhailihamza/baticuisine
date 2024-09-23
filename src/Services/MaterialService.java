@@ -32,4 +32,13 @@ public class MaterialService {
     public void delete(Materials entity) {
         this.materialRepository.delete(entity);
     }
+
+    public double calcUnitCost(Materials entity) {
+        return (entity.getQuantite() * entity.getCoutUnitaire() * entity.getCoefficientQualite()) + entity.getCoutTransport();
+    }
+
+    public double calcUnitCostWithTVA(Materials entity, double TVA) {
+        double tax = (this.calcUnitCost(entity) * TVA) / 100;
+        return this.calcUnitCost(entity) + tax;
+    }
 }

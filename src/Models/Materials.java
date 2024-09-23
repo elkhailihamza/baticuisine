@@ -15,6 +15,10 @@ public class Materials {
         this.coefficientQualite = coefficientQualite;
     }
 
+    public Materials(long componentId) {
+        this.componentId = componentId;
+    }
+
     public long getComponentId() {
         return componentId;
     }

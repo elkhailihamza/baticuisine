@@ -15,6 +15,10 @@ public class Components {
         this.projectId = projectId;
     }
 
+    public Components(long component_id) {
+        this.component_id = component_id;
+    }
+
     public long getComponent_id() {
         return component_id;
     }
