@@ -2,8 +2,10 @@ package Views;
 
 import Tools.ScannerCast;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Scanner;
 
 public class View {
@@ -120,4 +122,25 @@ public class View {
             }
         }
     }
+
+    protected static LocalDate getLocalDateValue(String[] text, String pattern) {
+        while (true) {
+            Arrays.stream(text).forEach(System.out::println);
+
+            if (scannerInstance.hasNext()) {
+                String input = scannerInstance.nextLine();
+                try {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+                    return LocalDate.parse(input, formatter);
+                } catch (DateTimeParseException e) {
+                    error("Invalid date format! Please try again.");
+                    clearUserInput();
+                }
+            } else {
+                error("Input is required!");
+                clearUserInput();
+            }
+        }
+    }
+
 }

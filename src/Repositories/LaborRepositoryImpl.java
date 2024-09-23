@@ -1,7 +1,6 @@
 package Repositories;
 
 import Models.Labor;
-import Models.Materials;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -17,7 +16,7 @@ public class LaborRepositoryImpl implements LaborRepository{
     @Override
     public Labor findById(Long aLong) {
         Labor labor = null;
-        String sql = "SELECT * FROM labor WHERE componentid = ?;";
+        String sql = "SELECT * FROM labor WHERE component_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next())
@@ -47,7 +46,7 @@ public class LaborRepositoryImpl implements LaborRepository{
 
     @Override
     public void save(Labor entity) {
-        String sql = "INSERT INTO labor (componentid, hourlyrate, hoursworked, workerproductivity) VALUES (?, ?, ?, ?);";
+        String sql = "INSERT INTO labor (component_id, nom, typecomponent, tauxtva, hourlyrate, hoursworked, workerproductivity, projetid) VALUES (?, ?, ?, ?, ?, ?);";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignLaborToStmt(stmt, entity);
             stmt.executeUpdate();
@@ -57,11 +56,26 @@ public class LaborRepositoryImpl implements LaborRepository{
     }
 
     @Override
-    public void update(Labor entity) {
-        String sql = "UPDATE labor SET componentid = ?, hourlyrate = ?, hoursworked = ?, workerproductivity = ? WHERE componentid = ?;";
+    public Labor saveAndReturn(Labor entity) {
+        Labor labor = null;
+        String sql = "INSERT INTO labor (component_id, nom, typecomponent, tauxtva, hourlyrate, hoursworked, workerproductivity, projetid) VALUES (?, ?, ?, ?, ?, ?) RETURNING *;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignLaborToStmt(stmt, entity);
-            stmt.setLong(6, entity.getComponentId());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                labor = this.assignValuesToLabor(rs);
+        } catch (SQLException e) {
+            System.out.println("Labor add err: "+e);
+        }
+        return labor;
+    }
+
+    @Override
+    public void update(Labor entity) {
+        String sql = "UPDATE labor SET component_id = ?, nom = ?, typecomponent = ?, tauxtva = ?, hourlyrate = ?, hoursworked = ?, workerproductivity = ? WHERE component_id = ?;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignLaborToStmt(stmt, entity);
+            stmt.setLong(6, entity.getComponent_id());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Labor update err: "+e);
@@ -69,10 +83,26 @@ public class LaborRepositoryImpl implements LaborRepository{
     }
 
     @Override
-    public void delete(Labor entity) {
-        String sql = "DELETE FROM labor WHERE componentid = ?;";
+    public Labor updateAndReturn(Labor entity) {
+        Labor labor = null;
+        String sql = "UPDATE labor SET component_id = ?, nom = ?, typecomponent = ?, tauxtva = ?, hourlyrate = ?, hoursworked = ?, workerproductivity = ? WHERE component_id = ? RETURNING *;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
-            stmt.setLong(1, entity.getComponentId());
+            this.assignLaborToStmt(stmt, entity);
+            stmt.setLong(6, entity.getComponent_id());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                labor = this.assignValuesToLabor(rs);
+        } catch (SQLException e) {
+            System.out.println("Labor update err: "+e);
+        }
+        return labor;
+    }
+
+    @Override
+    public void delete(Labor entity) {
+        String sql = "DELETE FROM labor WHERE component_id = ?;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            stmt.setLong(1, entity.getComponent_id());
             stmt.executeUpdate();
         } catch (SQLException e) {
             System.out.println("Labor delete err: "+e);

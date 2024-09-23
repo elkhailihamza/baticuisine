@@ -48,7 +48,7 @@ public class QuoteRepositoryImpl implements QuoteRepository {
 
     @Override
     public void save(Quotes entity) {
-        String sql = "INSERT INTO quotes (montantEstime, dateEmission, dateValidate, accepte, projectid) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO quotes (montantEstime, dateEmission, dateValidate, accepte, projetid) VALUES (?, ?, ?, ?, ?);";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignQuoteToStmt(stmt, entity);
             stmt.executeUpdate();
@@ -58,8 +58,22 @@ public class QuoteRepositoryImpl implements QuoteRepository {
     }
 
     @Override
+    public Quotes saveAndReturn(Quotes entity) {
+        Quotes quote = null;
+        String sql = "INSERT INTO quotes (montantEstime, dateEmission, dateValidate, accepte, projetid) VALUES (?, ?, ?, ?, ?) RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignQuoteToStmt(stmt, entity);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                quote = this.assignValuesToQuotes(rs);
+        } catch (SQLException e) {
+            System.out.println("Quotes add err: " + e);
+        }
+    }
+
+    @Override
     public void update(Quotes entity) {
-        String sql = "UPDATE quotes SET montantEstime = ?, dateEmission = ?, dateValidate = ?, accepte = ?, projectid = ? WHERE quote_id = ?;";
+        String sql = "UPDATE quotes SET montantEstime = ?, dateEmission = ?, dateValidate = ?, accepte = ?, projetid = ? WHERE quote_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignQuoteToStmt(stmt, entity);
             stmt.setLong(6, entity.getQuote_id());
@@ -67,6 +81,22 @@ public class QuoteRepositoryImpl implements QuoteRepository {
         } catch (SQLException e) {
             System.out.println("Quotes update err: " + e);
         }
+    }
+
+    @Override
+    public Quotes updateAndReturn(Quotes entity) {
+        Quotes quote = null;
+        String sql = "UPDATE quotes SET montantEstime = ?, dateEmission = ?, dateValidate = ?, accepte = ?, projetid = ? WHERE quote_id = ? RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignQuoteToStmt(stmt, entity);
+            stmt.setLong(6, entity.getQuote_id());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                quote = this.assignValuesToQuotes(rs);
+        } catch (SQLException e) {
+            System.out.println("Quotes update err: " + e);
+        }
+        return quote;
     }
 
     @Override

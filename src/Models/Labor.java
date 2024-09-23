@@ -1,20 +1,15 @@
 package Models;
 
-public class Labor {
-    private final long componentId;
+public class Labor extends Components{
     private double hourlyRate;
     private double hoursWorked;
     private double workerProductivity;
 
-    public Labor(long componentId, double hourlyRate, double hoursWorked, double workerProductivity) {
-        this.componentId = componentId;
+    public Labor(long component_id, String nom, String typeComponant, double tauxTVA, double hourlyRate, double hoursWorked, double workerProductivity, long projetId) {
+        super(component_id, nom, typeComponant, tauxTVA, projetId);
         this.hourlyRate = hourlyRate;
         this.hoursWorked = hoursWorked;
         this.workerProductivity = workerProductivity;
-    }
-
-    public long getComponentId() {
-        return componentId;
     }
 
     public double getHourlyRate() {

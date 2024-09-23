@@ -25,6 +25,10 @@ public class ProjetService {
         this.projetRepository.save(entity);
     }
 
+    public Projets saveAndReturn(Projets entity) {
+        return this.projetRepository.saveAndReturn(entity);
+    }
+
     public void update(Projets entity) {
         this.projetRepository.update(entity);
     }

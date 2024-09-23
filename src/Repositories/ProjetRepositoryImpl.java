@@ -58,6 +58,21 @@ public class ProjetRepositoryImpl implements ProjetRepository {
     }
 
     @Override
+    public Projets saveAndReturn(Projets entity) {
+        Projets projet = null;
+        String sql = "INSERT INTO projets (nomprojet, margebeneficiaire, couttotal, etatprojet, clientid) VALUES (?, ?, ?, ?, ?) RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignProjetToStmt(stmt, entity);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                projet = this.assignValuesToProjets(rs);
+        } catch (SQLException e) {
+            System.out.println("Projets add err: " + e);
+        }
+        return projet;
+    }
+
+    @Override
     public void update(Projets entity) {
         String sql = "UPDATE projets SET nomprojet = ?, margebeneficiaire = ?, couttotal = ?, etatprojet = ?, clientid = ? WHERE projet_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
@@ -67,6 +82,22 @@ public class ProjetRepositoryImpl implements ProjetRepository {
         } catch (SQLException e) {
             System.out.println("Projets update err: " + e);
         }
+    }
+
+    @Override
+    public Projets updateAndReturn(Projets entity) {
+        Projets projet = null;
+        String sql = "UPDATE projets SET nomprojet = ?, margebeneficiaire = ?, couttotal = ?, etatprojet = ?, clientid = ? WHERE projet_id = ? RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignProjetToStmt(stmt, entity);
+            stmt.setLong(6, entity.getProjet_id());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                projet = this.assignValuesToProjets(rs);
+        } catch (SQLException e) {
+            System.out.println("Projets update err: " + e);
+        }
+        return projet;
     }
 
     @Override

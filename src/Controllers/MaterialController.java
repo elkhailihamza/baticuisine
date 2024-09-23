@@ -20,14 +20,12 @@ public class MaterialController extends Controller {
         this.componentService = repository.getComponentService();
     }
 
-    public HashMap<String, Materials> gatherMaterialObjs() {
+    public List<Materials> gatherMaterialObjs() {
         boolean continueCreating = true;
-        HashMap<String, Materials> materials = new HashMap<>();
+        List<Materials> materials = new ArrayList<>();
         while (continueCreating) {
-            String nom = GetComponentDetailsView.getComponentName();
-            materials.forEach((s, material) -> {
-                s = nom;
-                material = createNewMaterial();
+            materials.forEach(material -> {
+                material = createNewMaterialObj();
             });
             continueCreating = MaterialView.askToContinue();
         }
@@ -35,11 +33,12 @@ public class MaterialController extends Controller {
     }
 
     public Materials createNewMaterialObj() {
+        String nom = GetComponentDetailsView.getComponentName();
         double quantite = GetMaterialDetailsView.getMaterialQuantite();
         double coutUnitaire = GetMaterialDetailsView.getCoutTransport();
         double coutTransport = GetMaterialDetailsView.getCoutTransport();
         double coefficientQualite = GetMaterialDetailsView.getCoefficientQualite();
 
-        return new Materials(1, quantite, coutUnitaire, coutTransport, coefficientQualite);
+        return new Materials(1, nom, "Materiel", 1, quantite, coutUnitaire, coutTransport, coefficientQualite, 1);
     }
 }

@@ -17,9 +17,15 @@ public interface LaborRepository extends GenericRepository<Labor, Long> {
 
     default Labor assignValuesToLabor(ResultSet rs) throws SQLException {
         long componentId = rs.getLong("componentId");
+        String nom = rs.getString("nom");
+        String typeComponent = rs.getString("typecomponent");
+        double tauxTVA = rs.getDouble("typecomponent");
+        double quantite = rs.getDouble("quantite");
+        double coutunitaire = rs.getDouble("coutunitaire");
         double hourlyRate = rs.getDouble("hourlyrate");
         double hoursWorked = rs.getDouble("hoursworked");
         double workerProductivity = rs.getDouble("couttransport");
+
         return new Labor(componentId, hourlyRate, hoursWorked, workerProductivity);
     }
 }

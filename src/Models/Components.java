@@ -15,8 +15,8 @@ public class Components {
         this.projectId = projectId;
     }
 
-    public Components(long component_id) {
-        this.component_id = component_id;
+    public Components(long componentId) {
+        this.component_id = componentId;
     }
 
     public long getComponent_id() {
