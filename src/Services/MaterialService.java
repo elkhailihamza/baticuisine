@@ -1,7 +1,6 @@
 package Services;
 
 import Models.Materials;
-import Repositories.GenericRepository;
 import Repositories.MaterialRepository;
 
 import java.util.List;
@@ -34,11 +33,28 @@ public class MaterialService {
     }
 
     public double calcUnitCost(Materials entity) {
-        return (entity.getQuantite() * entity.getCoutUnitaire() * entity.getCoefficientQualite()) + entity.getCoutTransport();
+        return Math.round((entity.getQuantite() * entity.getCoutUnitaire() * entity.getCoefficientQualite()) + entity.getCoutTransport());
     }
 
-    public double calcUnitCostWithTVA(Materials entity, double TVA) {
-        double tax = (this.calcUnitCost(entity) * TVA) / 100;
-        return this.calcUnitCost(entity) + tax;
+    public double calcUnitCostTVA(Materials entity, double TVA) {
+        if (TVA < 0) {
+            throw new IllegalArgumentException("TVA cannot be negative.");
+        }
+        double unitPrice = this.calcUnitCost(entity);
+        double tax = TVA / 100;
+        return Math.round((unitPrice * tax) + unitPrice);
+    }
+
+    public double calcListCost(List<Materials> materials) {
+        return materials.stream()
+                .mapToDouble(this::calcUnitCost)
+                .sum();
+    }
+
+
+    public double calcListCostWithTVA(List<Materials> materials) {
+        return materials.stream()
+                .mapToDouble(m -> this.calcUnitCostTVA(m, m.getTauxTVA()))
+                .sum();
     }
 }

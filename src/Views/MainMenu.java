@@ -1,14 +1,15 @@
 package Views;
 
-import java.util.HashMap;
+import Tools.GetValue;
+import Tools.TextStyles;
 
-public class MainMenu extends View {
+public class MainMenu {
     public static int displayMenu() {
-        header("=== Menu Principal ===");
-        String[] options = {"Créer un nouveau projet", "Afficher les projets existants", "Calculer le coût d'un projet", "Quitter"};
-        options(options);
-        footer("Choisissez une option :");
+        TextStyles.header("=== Menu Principal ===");
+        String[] opts = {"Créer un nouveau projet", "Afficher les projets existants", "Calculer le coût d'un projet", "Quitter"};
+        TextStyles.options(opts);
+        TextStyles.footer("Choisissez une option :");
 
-        return returnValidNum(options);
+        return GetValue.validNum(opts.length);
     }
 }

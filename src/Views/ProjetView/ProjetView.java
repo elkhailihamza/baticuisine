@@ -1,84 +1,60 @@
 package Views.ProjetView;
 
 import Models.*;
-import Views.View;
+import Tools.TextStyles;
+import Views.LaborView.LaborView;
+import Views.MaterialView.MaterialView;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.HashMap;
 
-public class ProjetView extends View {
+public class ProjetView {
     public static String createNewProject() {
-        header("--- Création d'un Nouveau Projet ---");
+        TextStyles.header("Création d'un Nouveau Projet");
         return GetProjetDetailsView.getProjetName();
     }
 
-    public static void calcTotalPrice(Projets projet, Clients client, List<Components> components) {
-        AtomicReference<Double> priceAvantTVA = new AtomicReference<>(0.0);
-        AtomicReference<Double> priceAvecTVA = new AtomicReference<>(0.0);
+    public static void totalPriceResult(Projets projet, HashMap<Materials, Double> materials, HashMap<Labor, Double> labor, Clients client, double tauxTVA, double margeBenPourcentage, double totalPriceNoMarge, double priceMat, double priceMatTVA, double priceLab, double priceLabTVA) {
+        TextStyles.header("Résultat du Calcul");
+        TextStyles.text("Nom du projet :" + projet.getNomProjet());
+        TextStyles.text("Client: " + client.getNom());
+        TextStyles.text("Adresse du chantier :" + client.getAdresse());
+        TextStyles.header("Détail des Coûts");
+        TextStyles.text("1. Matériaux :");
 
-        header("Calcul du coût en cours...");
-        header("--- Résultat du Calcul ---");
-        header("Nom du projet :" + projet.getNomProjet());
-        header("Client: " + client.getNom());
-        header("Adresse du chantier :" + client.getAdresse());
-        header("--- Détail des Coûts ---");
-        header("1. Matériaux :");
-        components.stream()
-                .filter(c -> Objects.equals(c.getTypeComponant(), "Materiel"))
-                .forEach(c -> {
-                    if (c instanceof Materials m) {
-                        displayMaterielDetails(m, calcUnitCost(m));
-                        priceAvantTVA.updateAndGet(v -> (double) (v + calcUnitCost(m)));
-                        priceAvecTVA.updateAndGet(v -> (double) (v + calcUnitCostWithTVA(m, m.getTauxTVA())));
-                    }
-                });
-        header("**Coût total des matériaux avant TVA : " + priceAvantTVA + " €**");
-        header("**Coût total des matériaux avec TVA (" + components.getFirst().getTauxTVA() + ") : " + priceAvecTVA + " €**");
-        header("2. Main-d'œuvre : ");
-        components.stream()
-                .filter(c -> Objects.equals(c.getTypeComponant(), "Labor"))
-                .forEach(c -> {
-                    if (c instanceof Labor l) {
-                        displayLaborDetails(l, calcWorkCost(l));
-                        priceAvantTVA.updateAndGet(v -> (double) (v + calcWorkCost(l)));
-                        priceAvecTVA.updateAndGet(v -> (double) (v + calcWorkCostWithTVA(l, l.getTauxTVA())));
-                    }
-                });
-        header("**Coût total de la main-d'œuvre avant TVA : " + priceAvantTVA + " €**");
-        header("**Coût total de la main-d'œuvre avec TVA (" + components.getFirst().getTauxTVA() + ") : " + priceAvecTVA + " €**");
-        header("3. Coût total avant marge : " + projet.getCoutTotal() + " €");
-        header("4.Marge bénéficiaire (" + projet.getMargeBeneficiaire() + ") : " + projet.getCoutTotal() / projet.getMargeBeneficiaire() + " €");
-        header("**Coût total final du projet : **" + (projet.getCoutTotal() / projet.getMargeBeneficiaire()) + projet.getCoutTotal() + " €");
+        materials.keySet().forEach(k -> {
+            double unitPrice = materials.get(k);
+            MaterialView.displayMaterialComponent(k, unitPrice);
+        });
+
+        TextStyles.bold("Coût total des matériaux avant TVA : " + priceMat + " €");
+        TextStyles.bold("Coût total des matériaux avec TVA (" + tauxTVA + ") : " + priceMatTVA + " €");
+        TextStyles.text("2. Main-d'œuvre : ");
+
+        labor.keySet().forEach(k -> {
+            double unitPrice = labor.get(k);
+            LaborView.displayLaborComponent(k, unitPrice);
+        });
+
+        TextStyles.bold("Coût total de la main-d'œuvre avant TVA : " + priceLab + " €");
+        TextStyles.bold("Coût total de la main-d'œuvre avec TVA (" + tauxTVA + "%) : " + priceLabTVA + " €");
+        TextStyles.text("3. Coût total avant marge : " + totalPriceNoMarge + " €");
+        TextStyles.text("4.Marge bénéficiaire (" + margeBenPourcentage + ") : " + projet.getMargeBeneficiaire() + " €");
+        TextStyles.bold("Coût total final du projet : ** " + projet.getCoutTotal() + " €");
+    }
+
+    public static void displayProjet(Projets p) {
+        TextStyles.text("Id : "+p.getProjet_id()+"- nom : "+p.getNomProjet()+". etat : "+p.getEtatProjet()+" Cout total : "+p.getCoutTotal()+" marge beneficiaire : "+p.getMargeBeneficiaire());
+    }
+
+    public static void displayProjetPrice(Projets p) {
+        TextStyles.text("- "+p.getNomProjet()+" : "+p.getCoutTotal()+" €");
+    }
+
+    public static void projetNotFound(long id) {
+        TextStyles.error("Projet not found with id "+id+" Not found!");
     }
 
     public static void saveSuccessful() {
-        header("--- Fin du projet ---");
-    }
-
-    private static void displayMaterielDetails(Materials m, double fullPriceNoTVA) {
-        header("- " + m.getNom() + " : " + fullPriceNoTVA + " € (quantité : " + m.getQuantite() + " m², coût unitaire : " + m.getCoutUnitaire() + " €/m², qualité : " + m.getCoefficientQualite() + ", transport : " + m.getCoutTransport() + " €");
-    }
-
-    private static void displayLaborDetails(Labor l, double fullPriceNoTVA) {
-        header("- " + l.getNom() + " : " + fullPriceNoTVA + " € (taux horaire : " + l.getHourlyRate() + " €/h, heures travaillées : " + l.getHoursWorked() + " h, productivité : " + l.getWorkerProductivity());
-    }
-
-    private static double calcWorkCost(Labor l) {
-        return l.getHourlyRate() * l.getHoursWorked() * l.getWorkerProductivity();
-    }
-
-    private static double calcWorkCostWithTVA(Labor entity, double TVA) {
-        double tax = (calcWorkCost(entity) * TVA) / 100;
-        return calcWorkCost(entity) + tax;
-    }
-
-    private static double calcUnitCost(Materials m) {
-        return (m.getQuantite() * m.getCoutUnitaire() * m.getCoefficientQualite()) + m.getCoutTransport();
-    }
-
-    private static double calcUnitCostWithTVA(Materials m, double TVA) {
-        double tax = (calcUnitCost(m) * TVA) / 100;
-        return calcUnitCost(m) + tax;
+        TextStyles.header("--- Fin du projet ---");
     }
 }

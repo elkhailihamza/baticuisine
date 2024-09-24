@@ -1,7 +1,6 @@
 package Services;
 
 import Models.Projets;
-import Repositories.GenericRepository;
 import Repositories.ProjetRepository;
 
 import java.util.List;
@@ -35,5 +34,13 @@ public class ProjetService {
 
     public void delete(Projets entity) {
         this.projetRepository.delete(entity);
+    }
+
+    public double calcMargeBeneficiaire(double totalPriceNoMarge, double margeBenPourcentage) {
+        if (margeBenPourcentage <= 0) {
+            return totalPriceNoMarge;
+        }
+        double pourcentage = margeBenPourcentage / 100;
+        return Math.round(totalPriceNoMarge * pourcentage);
     }
 }

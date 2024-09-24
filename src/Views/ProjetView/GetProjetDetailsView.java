@@ -1,21 +1,25 @@
 package Views.ProjetView;
 
-import Views.View;
+import Tools.GetValue;
 
-public class GetProjetDetailsView extends View {
+public class GetProjetDetailsView {
+    public static long getProjetId() {
+        return GetValue.longValue(new String[]{"Entrez l'id du projet :"});
+    }
+
     public static String getProjetName() {
-        return getStringInput(new String[]{"Entrez le nom du projet :"});
+        return GetValue.stringValue(new String[]{"Entrez le nom du projet :"});
     }
 
     public static double getProjetMargeBeneficiaire() {
-        return getDoubleValue(new String[]{"Entrez la marge beneficiaire :"});
+        return GetValue.doubleValue(new String[]{"Entrez la marge beneficiaire :"});
     }
 
     public static double getProjetCoutTotal() {
-        return getDoubleValue(new String[]{"Entrez le cout total :"});
+        return GetValue.doubleValue(new String[]{"Entrez le cout total :"});
     }
 
     public static boolean getEtatProjet() {
-        return getBooleanValue(new String[]{"Changer l'etat du projet :"});
+        return GetValue.booleanValue(new String[]{"Changer l'etat du projet :"});
     }
 }

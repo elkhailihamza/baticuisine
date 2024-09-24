@@ -1,6 +1,7 @@
-package Repositories;
+package Repositories.Implementations;
 
 import Models.Clients;
+import Repositories.ClientRepository;
 
 import java.sql.*;
 import java.util.ArrayList;

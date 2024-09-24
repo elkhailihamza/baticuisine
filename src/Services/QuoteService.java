@@ -1,7 +1,6 @@
 package Services;
 
 import Models.Quotes;
-import Repositories.GenericRepository;
 import Repositories.QuoteRepository;
 
 import java.util.List;

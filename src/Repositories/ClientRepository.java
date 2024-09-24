@@ -14,7 +14,6 @@ public interface ClientRepository extends GenericRepository<Clients, Long> {
         stmt.setString(2, entity.getAdresse());
         stmt.setString(3, entity.getTelephone());
         stmt.setBoolean(4, entity.getEstProfessionnel());
-        stmt.setLong(5, entity.getClient_id());
     }
 
     default Clients assignValuesToClients(ResultSet rs) throws SQLException {

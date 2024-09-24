@@ -15,11 +15,13 @@ public class QuoteController extends Controller{
         this.quoteService = repository.getQuoteService();
     }
 
-    public void registerNewQuote(Projets projet) {
+    public Quotes createNewQuote(Projets projet) {
         List<LocalDate> dates = QuoteView.registerQuotes();
-        double montantEstime = projet.getCoutTotal() * (1 + projet.getMargeBeneficiaire());
-        Quotes quote = new Quotes(1, montantEstime, dates.getFirst(), dates.getLast(), false, projet.getProjet_id());
+        double montantEstime = Math.round(projet.getCoutTotal() * (1 + projet.getMargeBeneficiaire()));
+        return new Quotes(1, montantEstime, dates.getFirst(), dates.getLast(), false, projet.getProjet_id());
+    }
+
+    public void saveQuote(Quotes quote) {
         this.quoteService.save(quote);
-        QuoteView.saveSuccessful();
     }
 }

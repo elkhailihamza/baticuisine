@@ -1,6 +1,7 @@
-package Repositories;
+package Repositories.Implementations;
 
 import Models.Projets;
+import Repositories.ProjetRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class ProjetRepositoryImpl implements ProjetRepository {
 
     @Override
     public void save(Projets entity) {
-        String sql = "INSERT INTO projets (nomprojet, margebeneficiaire, couttotal, etatprojet, clientid) VALUES (?, ?, ?, ?, ?);";
+        String sql = "INSERT INTO projets (nomprojet, margebeneficiaire, couttotal, etatprojet, clientid) VALUES (?, ?, ?, ?::etat, ?);";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignProjetToStmt(stmt, entity);
             stmt.executeUpdate();
@@ -60,7 +61,7 @@ public class ProjetRepositoryImpl implements ProjetRepository {
     @Override
     public Projets saveAndReturn(Projets entity) {
         Projets projet = null;
-        String sql = "INSERT INTO projets (nomprojet, margebeneficiaire, couttotal, etatprojet, clientid) VALUES (?, ?, ?, ?, ?) RETURNING *;";
+        String sql = "INSERT INTO projets (nomprojet, margebeneficiaire, couttotal, etatprojet, clientid) VALUES (?, ?, ?, ?::etat, ?) RETURNING *;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignProjetToStmt(stmt, entity);
             ResultSet rs = stmt.executeQuery();
@@ -74,7 +75,7 @@ public class ProjetRepositoryImpl implements ProjetRepository {
 
     @Override
     public void update(Projets entity) {
-        String sql = "UPDATE projets SET nomprojet = ?, margebeneficiaire = ?, couttotal = ?, etatprojet = ?, clientid = ? WHERE projet_id = ?;";
+        String sql = "UPDATE projets SET nomprojet = ?, margebeneficiaire = ?, couttotal = ?, etatprojet = ?::etat, clientid = ? WHERE projet_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignProjetToStmt(stmt, entity);
             stmt.setLong(6, entity.getProjet_id());
@@ -87,7 +88,7 @@ public class ProjetRepositoryImpl implements ProjetRepository {
     @Override
     public Projets updateAndReturn(Projets entity) {
         Projets projet = null;
-        String sql = "UPDATE projets SET nomprojet = ?, margebeneficiaire = ?, couttotal = ?, etatprojet = ?, clientid = ? WHERE projet_id = ? RETURNING *;";
+        String sql = "UPDATE projets SET nomprojet = ?, margebeneficiaire = ?, couttotal = ?, etatprojet = ?::etat, clientid = ? WHERE projet_id = ? RETURNING *;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
             this.assignProjetToStmt(stmt, entity);
             stmt.setLong(6, entity.getProjet_id());

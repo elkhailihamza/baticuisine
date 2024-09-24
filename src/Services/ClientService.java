@@ -2,7 +2,6 @@ package Services;
 
 import Models.Clients;
 import Repositories.ClientRepository;
-import Repositories.GenericRepository;
 
 import java.util.List;
 

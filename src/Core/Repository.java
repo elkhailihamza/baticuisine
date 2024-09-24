@@ -1,7 +1,7 @@
 package Core;
 
-import Models.*;
 import Repositories.*;
+import Repositories.Implementations.*;
 import Services.*;
 
 import java.sql.Connection;

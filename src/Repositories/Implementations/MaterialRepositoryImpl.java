@@ -1,6 +1,7 @@
-package Repositories;
+package Repositories.Implementations;
 
 import Models.Materials;
+import Repositories.MaterialRepository;
 
 import java.sql.*;
 import java.util.ArrayList;

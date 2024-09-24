@@ -1,13 +1,11 @@
 package Controllers;
 
 import Models.Labor;
-import Models.Materials;
 import Views.ComponentView.GetComponentDetailsView;
 import Views.LaborView.GetLaborDetailsView;
-import Views.MaterialView.MaterialView;
+import Views.LaborView.LaborView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class LaborController extends Controller{
@@ -18,11 +16,15 @@ public class LaborController extends Controller{
     public List<Labor> gatherLaborObjs() {
         boolean continueCreating = true;
         List<Labor> labors = new ArrayList<>();
+        Labor labor;
+
+        LaborView.displayMenu();
         while (continueCreating) {
-            labors.forEach(labor -> {
-                labor = createNewLaborObj();
-            });
-            continueCreating = MaterialView.askToContinue();
+            LaborView.displaySize(labors.size()+1);
+            labor = createNewLaborObj();
+            labors.add(labor);
+            LaborView.saveSuccessful();
+            continueCreating = LaborView.askToContinue();
         }
         return labors;
     }

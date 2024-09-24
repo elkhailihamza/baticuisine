@@ -1,12 +1,13 @@
-package Repositories;
+package Repositories.Implementations;
 
 import Models.Labor;
+import Repositories.LaborRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LaborRepositoryImpl implements LaborRepository{
+public class LaborRepositoryImpl implements LaborRepository {
     private static Connection connectionInstance;
 
     public LaborRepositoryImpl (Connection db_connection) {

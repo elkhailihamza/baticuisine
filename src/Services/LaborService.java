@@ -1,10 +1,12 @@
 package Services;
 
 import Models.Labor;
-import Repositories.GenericRepository;
+import Models.Materials;
+import Repositories.ComponentRepository;
 import Repositories.LaborRepository;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LaborService {
     private final LaborRepository laborRepository;
@@ -20,6 +22,7 @@ public class LaborService {
     public List<Labor> fetchAll() {
         return this.laborRepository.fetchAll();
     }
+
 
     public void save(Labor entity) {
         this.laborRepository.save(entity);
@@ -38,7 +41,23 @@ public class LaborService {
     }
 
     public double calcWorkCostWithTVA(Labor entity, double TVA) {
-        double tax = (this.calcWorkCost(entity) * TVA) / 100;
-        return this.calcWorkCost(entity) + tax;
+        if (TVA < 0) {
+            throw new IllegalArgumentException("TVA cannot be negative.");
+        }
+        double unitPrice = this.calcWorkCost(entity);
+        double tax = TVA / 100;
+        return (unitPrice * tax) + unitPrice;
+    }
+
+    public double calcListWorkCost(List<Labor> labor) {
+        return labor.stream()
+                .mapToDouble(this::calcWorkCost)
+                .sum();
+    }
+
+    public double calcListCostWithTVA(List<Labor> labor) {
+        return labor.stream()
+                .mapToDouble(l -> this.calcWorkCostWithTVA(l, l.getTauxTVA()))
+                .sum();
     }
 }

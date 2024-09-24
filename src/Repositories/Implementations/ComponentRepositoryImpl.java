@@ -1,6 +1,7 @@
-package Repositories;
+package Repositories.Implementations;
 
 import Models.Components;
+import Repositories.ComponentRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -56,6 +57,21 @@ public class ComponentRepositoryImpl implements ComponentRepository {
     }
 
     @Override
+    public Components saveAndReturn(Components entity) {
+        Components component = null;
+        String sql = "INSERT INTO clients (nom, adresse, telephone, estprofessionnel) VALUES (?, ?, ?, ?) RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignComponentToStmt(stmt, entity);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                component = this.assignValuesToComponents(rs);
+        } catch (SQLException e) {
+            System.out.println("Clients add err: " + e);
+        }
+        return component;
+    }
+
+    @Override
     public void update(Components entity) {
         String sql = "UPDATE components SET nom = ?, typecomponent = ?, tauxtva = ?, projetid = ? WHERE component_id = ?;";
         try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
@@ -65,6 +81,22 @@ public class ComponentRepositoryImpl implements ComponentRepository {
         } catch (SQLException e) {
             System.out.println("Clients update err: "+e);
         }
+    }
+
+    @Override
+    public Components updateAndReturn(Components entity) {
+        Components component = null;
+        String sql = "UPDATE components SET nom = ?, typecomponent = ?, tauxtva = ?, projetid = ? WHERE component_id = ? RETURNING *;";
+        try (PreparedStatement stmt = connectionInstance.prepareStatement(sql)) {
+            this.assignComponentToStmt(stmt, entity);
+            stmt.setLong(6, entity.getComponent_id());
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next())
+                component = this.assignValuesToComponents(rs);
+        } catch (SQLException e) {
+            System.out.println("Clients update err: "+e);
+        }
+        return component;
     }
 
     @Override

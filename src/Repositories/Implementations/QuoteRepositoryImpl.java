@@ -1,6 +1,7 @@
-package Repositories;
+package Repositories.Implementations;
 
 import Models.Quotes;
+import Repositories.QuoteRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -69,6 +70,7 @@ public class QuoteRepositoryImpl implements QuoteRepository {
         } catch (SQLException e) {
             System.out.println("Quotes add err: " + e);
         }
+        return quote;
     }
 
     @Override
