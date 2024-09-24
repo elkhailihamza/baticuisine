@@ -37,9 +37,8 @@ public class ProjetService {
     }
 
     public double calcMargeBeneficiaire(double totalPriceNoMarge, double margeBenPourcentage) {
-        if (margeBenPourcentage <= 0) {
+        if (margeBenPourcentage <= 0)
             return totalPriceNoMarge;
-        }
         double pourcentage = margeBenPourcentage / 100;
         return Math.round(totalPriceNoMarge * pourcentage);
     }

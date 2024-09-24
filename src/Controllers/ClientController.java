@@ -16,7 +16,6 @@ public class ClientController extends Controller {
     }
 
     public Clients selectClient() {
-        boolean selectThisClient = true;
         Clients client = null;
         while (Objects.isNull(client)) {
             int num = ClientView.displayMenu();
@@ -53,6 +52,10 @@ public class ClientController extends Controller {
         if (ClientView.clientFound(client))
             return client;
         return null;
+    }
+
+    public boolean clientIsProfessionnel(Clients c) {
+        return c.getEstProfessionnel();
     }
 
 }

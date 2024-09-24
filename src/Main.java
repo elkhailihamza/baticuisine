@@ -5,7 +5,7 @@ public class Main {
 
 //    private ClientController clientController = new ClientController();
     private final ProjetController projetController = new ProjetController();
-//    private QuoteController quoteController = new QuoteController();
+    private QuoteController quoteController = new QuoteController();
 //    private ComponentController componentController = new ComponentController();
 //    private MaterialController materialController = new MaterialController();
 //    private LaborController laborController = new LaborController();
@@ -19,7 +19,7 @@ public class Main {
 
         while (true) {
             option = MainMenu.displayMenu();
-            if (option == 4) {
+            if (option == 5) {
                 System.out.println("Exit");
                 break;
             }
@@ -33,6 +33,7 @@ public class Main {
             case 1 -> projetController.createNewProjet();
             case 2 -> projetController.displayProjets();
             case 3 -> projetController.showProjetById();
+            case 4 -> quoteController.viewAllQuotes();
         }
     }
 }

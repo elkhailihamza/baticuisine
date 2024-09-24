@@ -43,7 +43,10 @@ public class ClientService {
         this.ClientRepository.delete(entity);
     }
 
-    public boolean isProfessionnel(long id) {
-        return this.findById(id).getEstProfessionnel();
+    public double useDiscount(double totalPrice, double discount) {
+        if (discount <= 0)
+            return totalPrice;
+        double pourcentage = discount / 100;
+        return Math.round(totalPrice * pourcentage);
     }
 }

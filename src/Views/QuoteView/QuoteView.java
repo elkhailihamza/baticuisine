@@ -1,5 +1,7 @@
 package Views.QuoteView;
 
+import Models.Projets;
+import Models.Quotes;
 import Tools.GetValue;
 import Tools.TextStyles;
 
@@ -25,5 +27,17 @@ public class QuoteView {
         } while (!GetValue.yOrNValue(new String[]{"Souhaitez-vous enregistrer le devis ? (y/n) : "}));
         TextStyles.header("Devis enregistré avec succès !");
         return dates;
+    }
+
+    public static void displayQuote(Quotes q, Projets p) {
+        TextStyles.text("- Devis : "+q.getQuote_id()+". Nom : "+p.getNomProjet()+" | Montant estime : "+q.getMontantEstime()+" Date emission : "+q.getDateEmission()+" Date validate : "+q.getDateValidate()+". estAccepté : "+q.isAccepte());
+    }
+
+    public static boolean askForAccept() {
+        return GetValue.yOrNValue(new String[]{"Souhaitez-vous accepter un devis ? (y/n) : "});
+    }
+
+    public static void quoteNotFound() {
+        TextStyles.error("Devis non trouvé!");
     }
 }
