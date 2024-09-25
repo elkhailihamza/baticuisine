@@ -2,11 +2,8 @@ package Controllers;
 
 import Enums.Etat;
 import Models.*;
-import Services.ComponentService;
-import Services.LaborService;
-import Services.MaterialService;
-import Services.ProjetService;
-import Tools.TextStyles;
+import Services.*;
+import Views.ClientView.ClientView;
 import Views.ComponentView.GetComponentDetailsView;
 import Views.ProjetView.GetProjetDetailsView;
 import Views.ProjetView.ProjetView;
@@ -24,6 +21,7 @@ public class ProjetController extends Controller {
     private final ComponentService componentService;
     private final MaterialService materialService;
     private final LaborService laborService;
+    private final ClientService clientService;
 
     public ProjetController() {
         super();
@@ -31,6 +29,7 @@ public class ProjetController extends Controller {
         this.componentService = repository.getComponentService();
         this.materialService = repository.getMaterialService();
         this.laborService = repository.getLaborService();
+        this.clientService = repository.getClientService();
     }
 
     public void createNewProjet() {
@@ -44,6 +43,11 @@ public class ProjetController extends Controller {
 
             double tauxTVA;
             double margeBeneficiaire = 0;
+            double discount = 0;
+
+            if (client.getEstProfessionnel())
+                if (ClientView.askForDiscount())
+                    discount = ClientView.getDiscount();
 
             projet.setClientId(client.getClient_id());
             projet.setNomProjet(ProjetView.createNewProject());
@@ -62,10 +66,11 @@ public class ProjetController extends Controller {
 
             materials.forEach(m -> m.setTauxTVA(tauxTVA));
             labors.forEach(l -> l.setTauxTVA(tauxTVA));
+
             components.addAll(materials);
             components.addAll(labors);
 
-            this.calcTotalPrice(projet, materials, labors, client, tauxTVA, margeBeneficiaire);
+            this.calcTotalPrice(projet, materials, labors, client, tauxTVA, margeBeneficiaire, discount);
 
             Quotes quote = quoteController.createNewQuote(projet);
 
@@ -87,7 +92,7 @@ public class ProjetController extends Controller {
         }
     }
 
-    public void calcTotalPrice(Projets projet, List<Materials> materialList, List<Labor> laborList, Clients client, double tauxTVA, double margeBenPourcentage) {
+    public void calcTotalPrice(Projets projet, List<Materials> materialList, List<Labor> laborList, Clients client, double tauxTVA, double margeBenPourcentage, double discount) {
         HashMap<Materials, Double> materials = materialList.stream().collect(Collectors.toMap(k -> k, _ -> 0.0, (existing, _) -> existing, HashMap::new));
         HashMap<Labor, Double> labor = laborList.stream().collect(Collectors.toMap(l -> l, _ -> 0.0, (existing, _) -> existing, HashMap::new));
         updateCosts(materials, labor);
@@ -102,6 +107,7 @@ public class ProjetController extends Controller {
 
         projet.setMargeBeneficiaire(this.projetService.calcMargeBeneficiaire(totalPriceNoMarge, margeBenPourcentage));
         double coutTotal = totalPriceNoMarge + projet.getMargeBeneficiaire();
+        coutTotal = this.clientService.useDiscount(coutTotal, discount);
         projet.setCoutTotal(coutTotal);
 
         ProjetView.totalPriceResult(projet, materials, labor, client, tauxTVA, margeBenPourcentage, totalPriceNoMarge, totalCostMat, priceMatTVA, totalCostLab, priceLabTVA);

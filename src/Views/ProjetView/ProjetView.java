@@ -43,7 +43,7 @@ public class ProjetView {
     }
 
     public static void displayProjet(Projets p) {
-        TextStyles.text("Id : "+p.getProjet_id()+"- nom : "+p.getNomProjet()+". etat : "+p.getEtatProjet()+" Cout total : "+p.getCoutTotal()+" marge beneficiaire : "+p.getMargeBeneficiaire());
+        TextStyles.text("Id : "+p.getProjet_id()+"- nom : "+p.getNomProjet()+" | etat : "+p.getEtatProjet()+". Cout total : ("+p.getCoutTotal()+" €) marge beneficiaire : "+p.getMargeBeneficiaire()+" €.");
     }
 
     public static void displayProjetPrice(Projets p) {

@@ -28,7 +28,15 @@ public class ClientView {
     }
 
     public static Clients clientNotFound() {
-        TextStyles.error("Client not found!");
+        TextStyles.error("Client non trouvé!");
         return null;
+    }
+
+    public static boolean askForDiscount() {
+        return GetValue.yOrNValue(new String[]{"Ce client est professionnel. Souhaitez-vous ajouter une réduction ?"});
+    }
+
+    public static double getDiscount() {
+        return GetValue.doubleValue(new String[]{"Entrez le montant de la remise (%): "});
     }
 }

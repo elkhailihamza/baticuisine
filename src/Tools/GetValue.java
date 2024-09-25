@@ -107,17 +107,15 @@ public class GetValue {
     public static boolean yOrNValue(String[] text) {
         while (true) {
             Arrays.stream(text).forEach(System.out::println);
-            if (scannerInstance.hasNextLine()) {
-                String value = scannerInstance.nextLine().trim();
-                if (value.equalsIgnoreCase("Y"))
-                    return true;
-                else if (value.equalsIgnoreCase("N"))
-                    return false;
-                clearUserInput();
-            }
+            String value = scannerInstance.nextLine().trim();
+            if (value.equalsIgnoreCase("Y"))
+                return true;
+            else if (value.equalsIgnoreCase("N"))
+                return false;
             TextStyles.error("Only a Y or N value is allowed!");
         }
     }
+
 
     public static LocalDate localDateValue(String[] text, String pattern) {
         while (true) {

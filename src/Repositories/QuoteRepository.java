@@ -19,11 +19,11 @@ public interface QuoteRepository extends GenericRepository<Quotes, Long> {
 
     default Quotes assignValuesToQuotes(ResultSet rs) throws SQLException {
         long quoteId = rs.getLong("quote_id");
-        double montantEstime = rs.getDouble("montantEstime");
-        LocalDate dateEmission = rs.getDate("dateEmission").toLocalDate();
-        LocalDate dateValidate = rs.getDate("dateValidate").toLocalDate();
+        double montantEstime = rs.getDouble("montantestime");
+        LocalDate dateEmission = rs.getDate("dateemission").toLocalDate();
+        LocalDate dateValidate = rs.getDate("datevalidate").toLocalDate();
         boolean accepte = rs.getBoolean("accepte");
-        long projectId = rs.getLong("projectid");
+        long projectId = rs.getLong("projetid");
         return new Quotes(quoteId, montantEstime, dateEmission, dateValidate, accepte, projectId);
     }
 }
